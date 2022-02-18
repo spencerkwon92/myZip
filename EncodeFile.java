@@ -2,7 +2,6 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.PriorityQueue;
-import java.util.Scanner;
 import java.util.Set;
 
 import javax.swing.JOptionPane;
@@ -28,56 +27,59 @@ class Node implements Comparable<Node> {
 
 public class EncodeFile {
 
-    private static Scanner scan = new Scanner(System.in);
-    private static Map<Character, String> prefixCodeTable = new HashMap<>();
-    public static int bitwight = 0;
-    public static FileOutputStream fos;
-    public static String outPutFileName;
+    private Map<Character, String> prefixCodeTable;
+    public int bitwight;
+    public FileOutputStream encodedFile;
 
-    EncodeFile(String filename) throws IOException {
+    EncodeFile() {
+        prefixCodeTable = new HashMap<>();
+        bitwight = 0;
+    }
+
+    public static void main(String[] args) {
 
         try {
+            EncodeFile ef = new EncodeFile();
+            String inputData = JOptionPane.showInputDialog("input your fileName.");
+            String filename = "testSamples/" + inputData;
             File file = new File(filename);
-            String data = readDoc(file);
+            double preFileSize = file.length();
+            String txtData = ef.readDoc(file);
 
-            System.out.println(data);
+            String encodedFileName = filename.substring(12, filename.length() - 4);
+            ef.encodedFile = new FileOutputStream("testSamples/" + encodedFileName + ".zipped");
 
-            outPutFileName = filename.substring(0, filename.length() - 4);
-            fos = new FileOutputStream(outPutFileName + ".zip301");
-
-            String code = encoding(data);
+            String code = ef.encoding(txtData);
             String division = "*****" + "\n";
-            String bits = String.valueOf(bitwight) + "\n";
+            String bits = String.valueOf(ef.bitwight);
 
-            fos.write(division.getBytes());
-            fos.write(bits.getBytes());
+            ef.encodedFile.write(division.getBytes());
+            ef.encodedFile.write(bits.getBytes());
+
+            System.out.println(code.length());
+
             for (int i = 0; i < code.length(); i += 8) {
                 String singleByte = code.substring(i, i + 8);
                 int value = Integer.parseInt(singleByte, 2);
-                fos.write(value);
+                ef.encodedFile.write(value);
             }
-            fos.close();
+            ef.encodedFile.close();
+
+            File postFile = new File("testSamples/" + encodedFileName + ".zipped");
+            double encodedFileSize = postFile.length();
+
+            System.out.println(preFileSize);
+            System.out.println(encodedFileSize);
+
+            System.out.println("All process is done..");
 
         } catch (IOException e) {
-
-        } catch (NumberFormatException ef) {
-
-        } catch (StringIndexOutOfBoundsException str) {
+            System.out.println(e);
 
         }
-
-        System.out.println("*** Huffman Zip - TEAM REFERENCE IMPLEMENTATION ***");
-        System.out.println("Wrote output to: " + outPutFileName.substring(7, outPutFileName.length()) + ".zip301");
-        System.out.println("*** ALL PROCESSES ARE DONE ***");
-
     }
 
-    public static void main(String[] args) throws IOException {
-        String filename = JOptionPane.showInputDialog("input your fileName.");
-        new EncodeFile("testSamples/" + filename);
-    }
-
-    public static String encoding(String data) throws IOException {
+    public String encoding(String data) throws IOException {
 
         Map<Character, Integer> charFreq = new HashMap<>();
         for (char c : data.toCharArray()) {
@@ -106,7 +108,7 @@ public class EncodeFile {
         return sb.toString();
     }
 
-    public static Node buildTree(PriorityQueue<Node> priQue) {
+    public Node buildTree(PriorityQueue<Node> priQue) {
 
         if (priQue.size() == 1) {
             return priQue.poll();
@@ -126,7 +128,7 @@ public class EncodeFile {
         }
     }
 
-    public static void setPrefixCode(Node n, String code) throws IOException {
+    public void setPrefixCode(Node n, String code) throws IOException {
 
         if (n == null)
             return;
@@ -135,15 +137,15 @@ public class EncodeFile {
             prefixCodeTable.put(n.data, code);
 
             if (n.data == '\n') {
-                fos.write((code + " newline" + "\n").getBytes());
+                encodedFile.write((code + " newline" + "\n").getBytes());
             } else if (n.data == ' ') {
-                fos.write((code + " space" + "\n").getBytes());
+                encodedFile.write((code + " space" + "\n").getBytes());
             } else if (n.data == '\r') {
-                fos.write((code + " return" + "\n").getBytes());
+                encodedFile.write((code + " return" + "\n").getBytes());
             } else if (n.data == '\t') {
-                fos.write((code + " tab" + "\n").getBytes());
+                encodedFile.write((code + " tab" + "\n").getBytes());
             } else {
-                fos.write((code + " " + n.data + "\n").getBytes());
+                encodedFile.write((code + " " + n.data + "\n").getBytes());
             }
 
             int bit = code.length() * n.freq;
@@ -170,10 +172,8 @@ public class EncodeFile {
                     break;
                 }
             }
-
         } catch (Exception e) {
         }
-
         return text;
     }
 }
