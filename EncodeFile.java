@@ -51,7 +51,7 @@ public class EncodeFile {
 
             String code = ef.encoding(txtData);
             String division = "*****" + "\n";
-            String bits = String.valueOf(ef.bitwight);
+            String bits = String.valueOf(ef.bitwight) + "\n";
 
             ef.encodedFile.write(division.getBytes());
             ef.encodedFile.write(bits.getBytes());
@@ -61,6 +61,7 @@ public class EncodeFile {
             for (int i = 0; i < code.length(); i += 8) {
                 String singleByte = code.substring(i, i + 8);
                 int value = Integer.parseInt(singleByte, 2);
+
                 ef.encodedFile.write(value);
             }
             ef.encodedFile.close();
@@ -149,6 +150,7 @@ public class EncodeFile {
             }
 
             int bit = code.length() * n.freq;
+            bitwight += bit;
 
         } else {
             setPrefixCode(n.left, code + '0');

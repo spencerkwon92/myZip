@@ -1,2 +1,4 @@
-EncodeFile.class Node.class
+.gitignore
+EncodeFile.class
+Node.class
 testSamples
