@@ -23,13 +23,15 @@ public class DecodeFile {
     public static void main(String[] args) {
 
         try {
+            long start = System.currentTimeMillis();
             DecodeFile df = new DecodeFile();
             String input = JOptionPane.showInputDialog("Please input your file for decoding.");
             String filename = "testSamples/" + input;
-            String DecodedFile = filename.substring(0, filename.length() - 7);
+            String DecodedFile = filename.substring(0, filename.length() - 7) + "2.txt";
 
+            File nf = new File(DecodedFile);
             FileInputStream fis = new FileInputStream(new File(filename));
-            FileOutputStream fos = new FileOutputStream(DecodedFile + "2.txt");
+            FileOutputStream fos = new FileOutputStream(DecodedFile);
 
             int read = 0;
             String codes = "";
@@ -113,8 +115,11 @@ public class DecodeFile {
 
             fis.close();
 
-            // System.out.println("Output File Name: "+DecodedFile.substring(7,
-            // DecodedFile.length())+"2.txt");
+            long end = System.currentTimeMillis();
+            long processTime = end - start;
+            System.out.println("*********Process Analysis**********");
+            System.out.println("Decoded File Size: " + nf.length() + " bytes.");
+            System.out.println("All process takes " + processTime + " sec.");
             System.out.println("*** All processes are DONE ***");
 
         } catch (IOException e) {

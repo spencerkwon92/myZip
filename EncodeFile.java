@@ -39,6 +39,9 @@ public class EncodeFile {
     public static void main(String[] args) {
 
         try {
+
+            long start = System.currentTimeMillis();
+
             EncodeFile ef = new EncodeFile();
             String inputData = JOptionPane.showInputDialog("input your fileName.");
             String filename = "testSamples/" + inputData;
@@ -56,8 +59,6 @@ public class EncodeFile {
             ef.encodedFile.write(division.getBytes());
             ef.encodedFile.write(bits.getBytes());
 
-            System.out.println(code.length());
-
             for (int i = 0; i < code.length(); i += 8) {
                 String singleByte = code.substring(i, i + 8);
                 int value = Integer.parseInt(singleByte, 2);
@@ -66,13 +67,19 @@ public class EncodeFile {
             }
             ef.encodedFile.close();
 
+            long end = System.currentTimeMillis();
+
+            long processTime = end - start;
+
             File postFile = new File("testSamples/" + encodedFileName + ".zipped");
             double encodedFileSize = postFile.length();
 
-            System.out.println(preFileSize);
-            System.out.println(encodedFileSize);
-
-            System.out.println("All process is done..");
+            System.out.println(encodedFileName + ".zipped created.");
+            System.out.println("**********Processe Analysis**********");
+            System.out.println("Original File Size: " + preFileSize + " bytes.");
+            System.out.println("Encoded File Size: " + encodedFileSize + " bytes.");
+            System.out.println("All process takes " + processTime + " sec.");
+            System.out.println("*** All processes are DONE ***");
 
         } catch (IOException e) {
             System.out.println(e);
