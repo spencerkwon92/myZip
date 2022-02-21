@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,9 +36,9 @@ public class DecodeFile {
 
             int read = 0;
             String codes = "";
+
             while ((read = fis.read()) != -1) {
                 codes += (char) read;
-
                 if (codes.contains("*****")) {
                     break;
                 }
@@ -47,27 +48,27 @@ public class DecodeFile {
             int num = datas.length;
 
             for (int i = 0; i < num - 1; i++) {
-                String str;
                 String nl;
-                if (datas[i].contains("space") && datas[i].contains(" ")) {
-                    str = datas[i].replaceAll(" ", "|");
-                    nl = str.replaceAll("space", " ");
+
+                if (datas[i].contains(" ")) {
+                    String temp = datas[i].replaceAll(" ", "|");
+                    datas[i] = temp;
+                }
+
+                if (datas[i].contains("space")) {
+                    nl = datas[i].replaceAll("space", " ");
                     df.dataList.add(nl);
-                } else if (datas[i].contains("newline") && datas[i].contains(" ")) {
-                    str = datas[i].replaceAll(" ", "|");
-                    nl = str.replaceAll("newline", "\n");
+                } else if (datas[i].contains("newline")) {
+                    nl = datas[i].replaceAll("newline", "\n");
                     df.dataList.add(nl);
-                } else if (datas[i].contains("return") && datas[i].contains(" ")) {
-                    str = datas[i].replaceAll(" ", "|");
-                    nl = str.replaceAll("return", "\r");
+                } else if (datas[i].contains("return")) {
+                    nl = datas[i].replaceAll("return", "\r");
                     df.dataList.add(nl);
-                } else if (datas[i].contains("tab") && datas[i].contains(" ")) {
-                    str = datas[i].replaceAll(" ", "|");
-                    nl = str.replaceAll("tab", "\t");
+                } else if (datas[i].contains("tab")) {
+                    nl = datas[i].replaceAll("tab", "\t");
                     df.dataList.add(nl);
                 } else {
-                    str = datas[i].replaceAll(" ", "|");
-                    df.dataList.add(str);
+                    df.dataList.add(datas[i]);
                 }
             }
 
@@ -82,7 +83,6 @@ public class DecodeFile {
             List<Integer> rawCodeList = new ArrayList<>();
             List<Integer> codeList = new ArrayList<>();
 
-            String s = "";
             while ((read = fis.read()) != -1) {
                 int b = read;
                 rawCodeList.add(b);
@@ -110,9 +110,7 @@ public class DecodeFile {
             }
 
             String sentences = df.decoding(codeBuffer);
-
             fos.write(sentences.getBytes());
-
             fis.close();
 
             long end = System.currentTimeMillis();

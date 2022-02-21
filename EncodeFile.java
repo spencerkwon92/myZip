@@ -39,7 +39,6 @@ public class EncodeFile {
     public static void main(String[] args) {
 
         try {
-
             long start = System.currentTimeMillis();
 
             EncodeFile ef = new EncodeFile();
