@@ -2,7 +2,7 @@
 
 Created: January 23, 2022 2:21 AM
 
-[Github][https://github.com/spencerkwon92/myZip](https://github.com/spencerkwon92/myZip)
+[Github][https://github.com/spencerkwon92/myzip](https://github.com/spencerkwon92/myZip)
 
 ## Development Objective.
 
@@ -21,22 +21,22 @@ To test to code, I used three normal text files and compare the size of files wi
 
 - First Test.
 
-![Untitled](myZip%20294ff/Untitled.png)
+![Untitled](readmeSrc/Untitled.png)
 
-![Untitled](myZip%20294ff/Untitled%201.png)
+![Untitled](readmeSrc/Untitled%201.png)
 
 - Second Test.
 
-![Untitled](myZip%20294ff/Untitled%202.png)
+![Untitled](readmeSrc/Untitled%202.png)
 
-![Untitled](myZip%20294ff/Untitled%203.png)
+![Untitled](readmeSrc/Untitled%203.png)
 
 - Third Test.
 
-![Untitled](myZip%20294ff/Untitled%204.png)
+![Untitled](readmeSrc/Untitled%204.png)
 
-![Untitled](myZip%20294ff/Untitled%205.png)
+![Untitled](readmeSrc/Untitled%205.png)
 
 All three input files’ sizes are decreased by encoding the file. Also, when I decoded the compressed file, it creates the decoded files without losing data. To illustrate, I create the comparison chart to show how much myZip code compresses the original data.
 
-![Untitled](myZip%20294ff/Untitled%206.png)
+![Untitled](readmeSrc/Untitled%206.png)
