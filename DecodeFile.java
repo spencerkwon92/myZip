@@ -4,6 +4,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,17 +37,29 @@ public class DecodeFile {
 
             int read = 0;
             String codes = "";
+            List<Integer> rawCodeList = new ArrayList<>();
             List<Integer> codeList = new ArrayList<>();
 
             while ((read = fis.read()) != -1) {
                 codes += (char) read;
                 if (codes.contains("*****")) {
                     int value = read;
-                    codeList.add(value);
+                    rawCodeList.add(value);
                 }
             }
+            for (int i = 2; i < rawCodeList.size(); i++) {
+                codeList.add(rawCodeList.get(i));
+            }
+            int throwIndex = codeList.indexOf(10);
 
-            int throwIndex = codeList.lastIndexOf(10);
+            // part for get the bit wight.
+            byte[] arr = new byte[throwIndex];
+            int j = 0;
+            for (int i = 0; i < throwIndex; i++) {
+                arr[j] = Byte.valueOf(String.valueOf(codeList.get(i)));
+                j++;
+            }
+            int bitwight = Integer.valueOf(new String(arr));
 
             String[] datas = codes.split("\n");
             int num = datas.length;
@@ -90,6 +103,15 @@ public class DecodeFile {
                 String padding = "0".repeat(numZero);
                 bin = padding + bin;
                 codeBuffer += bin;
+            }
+            int bufferSize = codeBuffer.length();
+
+            if (bufferSize != bitwight) {
+                int bitloose = bufferSize - bitwight;
+
+                String original = codeBuffer.substring(0, bufferSize - 8);
+                String newBin = codeBuffer.substring(bufferSize + bitloose - 8, bufferSize);
+                codeBuffer = original + newBin;
             }
 
             String sentences = df.decoding(codeBuffer);

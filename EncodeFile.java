@@ -58,26 +58,24 @@ public class EncodeFile {
             ef.encodedFile.write(division.getBytes());
             ef.encodedFile.write(bits.getBytes());
 
+            int num = code.length() % 8;
+            int size = code.length();
+
+            if (num != 0) {
+                int numZero = 8 - num;
+                String padding = "0".repeat(numZero);
+                String original = code.substring(0, size - num);
+                String bin = code.substring(size - num, size);
+
+                bin = padding + bin;
+                code = original + bin;
+            }
+
             for (int i = 0; i < code.length(); i += 8) {
                 String singleByte = code.substring(i, i + 8);
                 int value = Integer.parseInt(singleByte, 2);
                 ef.encodedFile.write(value);
             }
-
-            // if (code.length() % 8 != 0) {
-            // for (int i = 0; i < code.length(); i += 8) {
-            // if (i == code.length() - 1) {
-
-            // }
-
-            // }
-            // } else {
-            // for (int i = 0; i < code.length(); i += 8) {
-            // String singleByte = code.substring(i, i + 8);
-            // int value = Integer.parseInt(singleByte, 2);
-            // ef.encodedFile.write(value);
-            // }
-            // }
 
             ef.encodedFile.close();
 
