@@ -1,0 +1,42 @@
+# myZip
+
+Created: January 23, 2022 2:21 AM
+
+[Github][https://github.com/spencerkwon92/myZip](https://github.com/spencerkwon92/myZip)
+
+## Development Objective.
+
+1. Use the advantages of Huffman to real programming implementation.
+2. Transform the large size of data to small size one.
+
+---
+
+## Introduction
+
+Huffman code is commonly used for data compression by converting the characters to binary values using each characters’ frequency. I implement the concept of Huffman code using Java and compared the size of the encoded file with the original file and circulated the processing time.
+
+### Result.
+
+To test to code, I used three normal text files and compare the size of files with the size of zipped files.
+
+- First Test.
+
+![Untitled](myZip%20294ff/Untitled.png)
+
+![Untitled](myZip%20294ff/Untitled%201.png)
+
+- Second Test.
+
+![Untitled](myZip%20294ff/Untitled%202.png)
+
+![Untitled](myZip%20294ff/Untitled%203.png)
+
+- Third Test.
+
+![Untitled](myZip%20294ff/Untitled%204.png)
+
+![Untitled](myZip%20294ff/Untitled%205.png)
+
+All three input files’ sizes are decreased by encoding the file. Also, when I decoded the compressed file, it creates the decoded files without losing data. To illustrate, I create the comparison chart to show how much myZip code compresses the original data.
+
+![Untitled](myZip%20294ff/Untitled%206.png)
