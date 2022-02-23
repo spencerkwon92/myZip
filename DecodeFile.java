@@ -36,13 +36,17 @@ public class DecodeFile {
 
             int read = 0;
             String codes = "";
+            List<Integer> codeList = new ArrayList<>();
 
             while ((read = fis.read()) != -1) {
                 codes += (char) read;
                 if (codes.contains("*****")) {
-                    break;
+                    int value = read;
+                    codeList.add(value);
                 }
             }
+
+            int throwIndex = codeList.lastIndexOf(10);
 
             String[] datas = codes.split("\n");
             int num = datas.length;
@@ -54,7 +58,6 @@ public class DecodeFile {
                     String temp = datas[i].replaceAll(" ", "|");
                     datas[i] = temp;
                 }
-
                 if (datas[i].contains("space")) {
                     nl = datas[i].replaceAll("space", " ");
                     df.dataList.add(nl);
@@ -71,37 +74,17 @@ public class DecodeFile {
                     df.dataList.add(datas[i]);
                 }
             }
+            int secondThrowIndex = df.dataList.lastIndexOf("*****");
 
-            int size = df.dataList.size();
-            for (int i = 0; i < size; i++) {
+            for (int i = 0; i < secondThrowIndex; i++) {
                 String[] codeSet = df.dataList.get(i).split("\\|");
                 String value = codeSet[0];
                 char key = codeSet[1].charAt(0);
                 df.prefixCodeTale.put(key, value);
             }
 
-            List<Integer> rawCodeList = new ArrayList<>();
-            List<Integer> codeList = new ArrayList<>();
-
-            while ((read = fis.read()) != -1) {
-                int b = read;
-                rawCodeList.add(b);
-            }
-
-            int RC_size = rawCodeList.size();
-
-            for (int i = 1; i < RC_size; i++) {
-                if (rawCodeList.get(i) == 10) {
-                    int startIndex = i + 1;
-                    for (int j = startIndex; j < RC_size; j++) {
-                        codeList.add(rawCodeList.get(j));
-                    }
-                    break;
-                }
-            }
-
             String codeBuffer = "";
-            for (int i = 0; i < codeList.size(); i++) {
+            for (int i = throwIndex + 1; i < codeList.size(); i++) {
                 String bin = Integer.toBinaryString(codeList.get(i));
                 int numZero = 8 - bin.length();
                 String padding = "0".repeat(numZero);

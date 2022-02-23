@@ -61,9 +61,24 @@ public class EncodeFile {
             for (int i = 0; i < code.length(); i += 8) {
                 String singleByte = code.substring(i, i + 8);
                 int value = Integer.parseInt(singleByte, 2);
-
                 ef.encodedFile.write(value);
             }
+
+            // if (code.length() % 8 != 0) {
+            // for (int i = 0; i < code.length(); i += 8) {
+            // if (i == code.length() - 1) {
+
+            // }
+
+            // }
+            // } else {
+            // for (int i = 0; i < code.length(); i += 8) {
+            // String singleByte = code.substring(i, i + 8);
+            // int value = Integer.parseInt(singleByte, 2);
+            // ef.encodedFile.write(value);
+            // }
+            // }
+
             ef.encodedFile.close();
 
             long end = System.currentTimeMillis();
