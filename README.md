@@ -1,9 +1,5 @@
 # myZip
 
-Created: January 23, 2022 2:21 AM
-
-[Github][https://github.com/spencerkwon92/myzip](https://github.com/spencerkwon92/myZip)
-
 ## Development Objective.
 
 1. Use the advantages of Huffman to real programming implementation.
